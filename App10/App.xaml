@@ -1,0 +1,170 @@
+﻿<Application
+    x:Class="App10.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App10"
+    xmlns:vm="using:App10.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:convertes="using:App10.Converter"
+    RequestedTheme="Light"
+   >
+
+
+    <Application.Resources>
+        <convertes:ImageUriConverter x:Key="IconConverter"/>
+        <convertes:DateTimeConverter x:Key="DateTimeConverter"/>
+
+        <vm:ViewModelLocator x:Key="Locator"/>
+
+        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segou UI"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="Azure"/>
+        </Style>
+
+
+        <Style x:Key="TempratureTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Segou UI Light"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+
+        <Style x:Key="AutoComplateoxStyle" TargetType="AutoSuggestBox">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="QueryIcon" Value="Filter"/>
+            <Setter Property="Header" Value="City"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="10,60,10,10"/>
+            <Setter Property="PlaceholderText" Value="..."/>
+            <Setter Property="DisplayMemberPath" Value="Name"/>
+        </Style>
+
+
+
+        <DataTemplate x:Key="WeatherTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Width="150">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{Binding date,Converter={StaticResource DateTimeConverter}}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="17" FontFamily="Segoe UI" FontWeight="Light" Margin="5" Foreground="White"/>
+
+                    <Grid Grid.Row="1" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="{Binding Path=day.condition.icon,Converter={StaticResource IconConverter}}" Height="50" Width="50" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Margin="2" FontSize="13" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Run Text="{Binding day.maxtemp_c}"/>
+                            <Run Text=" °C"/>
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+
+
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Max Temp : " Grid.Column="0" Grid.Row="0"/>
+                    <TextBlock Text="Min Temp : " Grid.Column="0" Grid.Row="1"/>
+                    <TextBlock Text="Avg Temp : " Grid.Column="0" Grid.Row="2"/>
+                    <TextBlock Text="Max Wind : " Grid.Column="0" Grid.Row="3"/>
+
+                    <TextBlock Text="{Binding day.maxtemp_c}" Grid.Column="1" Grid.Row="0" Foreground="White"/>
+                    <TextBlock Text="{Binding day.mintemp_c}" Grid.Column="1" Grid.Row="1" Foreground="White"/>
+                    <TextBlock Text="{Binding day.avgtemp_c}" Grid.Column="1" Grid.Row="2" Foreground="White"/>
+                    <TextBlock Text="{Binding day.maxwind_kph}" Grid.Column="1" Grid.Row="3" Foreground="White"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+
+
+        <DataTemplate x:Key="WeatherDetailTemplate">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="{Binding Path=condition.icon,Converter={StaticResource IconConverter}}" Height="50" Width="50" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1" Text="{Binding Path=condition.text}" Margin="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+
+                </Grid>
+
+                <TextBlock Grid.Row="1" Text="{Binding time}" Foreground="White" Margin="0 10 0 0" FontSize="13" FontFamily="Segoe UI Light"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Temp : " Grid.Column="0" Grid.Row="0"/>
+                    <TextBlock Text="Wind : " Grid.Column="0" Grid.Row="1"/>
+                    <TextBlock Text="Feel : " Grid.Column="0" Grid.Row="2"/>
+                    <TextBlock Text="Cloud : " Grid.Column="0" Grid.Row="3"/>
+                    <TextBlock Text="Humidity : " Grid.Column="0" Grid.Row="4"/>
+
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding temp_c}" Foreground="White"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding windchill_c}" Foreground="White"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding feelslike_c}" Foreground="White"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding cloud}" Foreground="White"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding humidity}" Foreground="White"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+
+
+    </Application.Resources>
+
+
+
+
+
+
+
+</Application>

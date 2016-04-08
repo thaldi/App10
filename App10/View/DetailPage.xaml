@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="App10.View.DetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App10.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Detail, Source={StaticResource Locator}}">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/Images/back2.jpg"/>
+        </Grid.Background>
+
+
+
+        <GridView x:Name="WeatherDetailGridView" 
+                  ItemsSource="{Binding HourList}" 
+                  VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch" 
+                  Margin="30"
+                  ItemTemplate="{StaticResource WeatherDetailTemplate}"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+
+    </Grid>
+</Page>
