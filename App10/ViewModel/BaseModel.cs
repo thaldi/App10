@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Views;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace App10.ViewModel
 {
@@ -18,7 +19,7 @@ namespace App10.ViewModel
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
         private ForecastModel.RootObject CurrentTemps;
-        
+
 
 
         ObservableCollection<ForecastModel.Forecastday> forecastList;
@@ -85,6 +86,12 @@ namespace App10.ViewModel
             set { Set(() => Progress, ref progres, value, true); }
         }
 
+        private bool corf;
+        public bool CorF
+        {
+            get { return corf; }
+            set { Set(() => CorF, ref corf, value); }
+        }
 
         private RelayCommand<bool> ctoFCommand;
 
@@ -97,7 +104,11 @@ namespace App10.ViewModel
                     ctoFCommand = new RelayCommand<bool>(
                         value =>
                         {
-                            SetFTemp(value);
+                            if (CorF)
+                                CorF = false;
+                            else
+                                CorF = true;
+                            SetFTemp(CorF);
                         }));
             }
         }
@@ -131,10 +142,10 @@ namespace App10.ViewModel
                         forecastItem =>
                         {
                             navigationService.NavigateTo(ViewModelLocator.DetailPage, forecastItem);
+
                         }));
             }
         }
-
 
         private RelayCommand<string> searchCommand;
 
@@ -155,6 +166,7 @@ namespace App10.ViewModel
         public BaseModel(IWeatherService service, INavigationService navService, IDialogService DialogService)
         {
             Progress = true;
+            corf = false;
             BtnContent = "C or F";
 
             this.dataService = service;
@@ -165,24 +177,27 @@ namespace App10.ViewModel
             CityList = new ObservableCollection<City>();
 
             GetForecastWeather("istanbul");
-        }     
+        }
 
         private async Task GetForecastWeather(string value)
         {
             try
             {
+                Progress = true;
                 CurrentTemps = await dataService.GetForecast(value);
                 Title = CurrentTemps.location.name;
                 Icon = CurrentTemps.current.condition.icon;
                 Temp = CurrentTemps.current.temp_c.ToString() + " °C";
 
                 ForecastList = CurrentTemps.forecast.forecastday;
-
-                Progress = false;
             }
             catch (Exception ex)
             {
                 //await dialogService.ShowMessage(ex.Message, "Notice");
+            }
+            finally
+            {
+                Progress = false;
             }
         }
 

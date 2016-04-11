@@ -1,6 +1,7 @@
 ﻿using App10.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,8 @@ namespace App10.ViewModel
 {
     public class WeatherDetailViewModel : ViewModelBase
     {
+        private readonly INavigationService navigationService;
+
         private ObservableCollection<Model.ForecastModel.Hour> hourList;
 
         public ObservableCollection<Model.ForecastModel.Hour> HourList
@@ -23,18 +26,9 @@ namespace App10.ViewModel
             }
         }
 
-        /// <summary>
-        /// gerekli olursa model değiştirrlerek alınacak
-        /// </summary>
-        //private string date;
-        //public string Date
-        //{
-        //    get { return date; }
-        //    set { Set(() => Date, ref date, value); }
-        //}
-
-        public WeatherDetailViewModel()
+        public WeatherDetailViewModel(INavigationService nService)
         {
+            navigationService = nService;
             HourList = new ObservableCollection<ForecastModel.Hour>();
         }
 
@@ -54,5 +48,22 @@ namespace App10.ViewModel
                         }));
             }
         }
+
+
+        private RelayCommand backCommand;
+        public RelayCommand BackCommand
+        {
+            get
+            {
+                return backCommand ?? (
+
+                    backCommand = new RelayCommand(
+                        () =>
+                        {
+                            navigationService.GoBack();
+                        }));
+            }
+        }
+
     }
 }

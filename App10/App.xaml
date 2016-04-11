@@ -39,7 +39,11 @@
         <Style x:Key="AutoComplateoxStyle" TargetType="AutoSuggestBox">
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="QueryIcon" Value="Filter"/>
+            <!--<Setter Property="QueryIcon">
+                <Setter.Value>
+                    <SymbolIcon Symbol="Find"/>
+                </Setter.Value>
+            </Setter>-->
             <Setter Property="Header" Value="City"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="10,60,10,10"/>

@@ -76,7 +76,23 @@
 
                     <Button x:Name="CtoFBtn" VerticalAlignment="Top" HorizontalAlignment="Right" Content="{Binding BtnContent}" 
                             Margin="5" 
-                            Click="CtoFBtn_Click"/>
+                            Command="{Binding CtoFCommand,Mode=TwoWay}"/>
+
+
+                    <!--navigation frame-->
+                    <!--<Frame x:Name="SplitViewFrame">
+                        <Frame.ContentTransitions>
+                            <TransitionCollection>
+                                <NavigationThemeTransition>
+                                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                        <EntranceNavigationTransitionInfo />
+                                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                </NavigationThemeTransition>
+                            </TransitionCollection>
+                        </Frame.ContentTransitions>
+                    </Frame>-->
+
+
                 </Grid>
             </SplitView.Content>
         </SplitView>

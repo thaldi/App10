@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -68,6 +70,14 @@ namespace App10
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    //rootFrame.CanGoBack ?
+                    AppViewBackButtonVisibility.Visible;
+                    //AppViewBackButtonVisibility.Collapsed;
+
             }
 
             if (rootFrame.Content == null)
@@ -79,6 +89,19 @@ namespace App10
             }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            //Frame rootFrame = Window.Current.Content as Frame;
+
+            //if (rootFrame.CanGoBack)
+            //{
+            //    e.Handled = true;
+            //    rootFrame.GoBack();
+            //}
+            NavigationService service = new NavigationService();
+            service.GoBack();
         }
 
         /// <summary>
